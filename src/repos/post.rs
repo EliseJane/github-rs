@@ -9,6 +9,9 @@ new_type!(
     Repos
     Owner
     Issues
+    Pulls
+    Number
+    RequestedReviewers
 );
 
 from!(
@@ -21,6 +24,11 @@ from!(
     @Repo
         -> Statuses = "statuses"
         -> Issues = "issues"
+        -> Pulls = "pulls"
+    @Pulls
+        => Number
+    @Number
+        -> RequestedReviewers = "requested_reviewers"
     @Statuses
         => Sha
 
@@ -36,6 +44,13 @@ impl_macro!(
     @Repo
         |=> statuses -> Statuses
         |=> issues -> Issues
+        |=> pulls -> Pulls
+        |
+    @Pulls
+        |
+        |=> number -> Number = number_str
+    @Number
+        |=> requested_reviewers -> RequestedReviewers
         |
     @Statuses
         |
@@ -46,3 +61,4 @@ impl_macro!(
 
 exec!(Sha);
 exec!(Issues);
+exec!(RequestedReviewers);
